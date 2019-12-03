@@ -27,7 +27,6 @@ var express = require("express"),
                  const data = result.body
                  console.log(data['access_token'])
                  res.cookie('github-auth', data['access_token'])
-                 // res.send(data)
                  res.redirect('http://localhost:3000')
               });
           }
@@ -92,7 +91,6 @@ var express = require("express"),
           if (err) throw err
         
           var db = client.db('test1')
-          console.log(req.body.githubId)
         
           db.collection('users').find({"githubId":req.body.githubId}).toArray(function (err, result) {
             if (err) throw err
@@ -106,11 +104,9 @@ var express = require("express"),
           if (err) throw err
         
           var db = client.db('test1')
-          console.log(req.body.githubId)
         
           db.collection('users').insertOne(req.body, function(err, result) {
             if (err) throw err;
-            console.log("1 document inserted");
             res.send(true)
           });
         })
@@ -121,10 +117,14 @@ var express = require("express"),
           if (err) throw err
         
           var db = client.db('test1')
-          console.log(req.body)
         
           var myquery = { "githubId": req.body.githubId };
-          var newvalues = { $push: { "pictures": req.body.pictureId } };
+          if(req.body.link){
+            var newvalues = { $push: { "pictures": req.body.pictureId } };
+          }
+          else{
+            var newvalues = { $pull: { "pictures": req.body.pictureId } };
+          }
           db.collection("users").findOneAndUpdate(myquery, newvalues, function(err, result) {
             if (err) throw err;
             res.send(true)
