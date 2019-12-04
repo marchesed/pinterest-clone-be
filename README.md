@@ -11,3 +11,8 @@ In the project directory, you can run:
 
 Runs the back end locally
 *does not include the database
+
+### Database JSON files used for local development
+
+See "db files" folder for json files used
+Database used: MongoDB
