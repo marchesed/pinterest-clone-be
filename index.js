@@ -12,7 +12,6 @@ var express = require("express"),
     app.get('/user/github/callback', (req,res) => { 
           const { query } = req;
           const { code } = query
-          console.log(code)
           if(code){
               request
               .post('https://github.com/login/oauth/access_token')
@@ -25,7 +24,6 @@ var express = require("express"),
               .set('Accept', 'application/json')
               .then(result => {
                  const data = result.body
-                 console.log(data['access_token'])
                  res.cookie('github-auth', data['access_token'])
                  res.redirect('http://localhost:3000')
               });
